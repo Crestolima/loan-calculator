@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { createTheme } from '@mui/material/styles';
 import Header from './pages/Header';
 import HomePage from './pages/HomePage';
+import ExchangeRates from './pages/ExchangeRates';
 
 const App = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -21,7 +22,8 @@ const App = () => {
           paper: darkMode ? '#1e1e1e' : '',
         },
         text: {
-          primary: darkMode ? '#ffffff' : '#ffffff',
+          primary: darkMode ? '#ffffff' : '#000000',
+          
         },
       },
     }), [darkMode]);
@@ -37,6 +39,7 @@ const App = () => {
         <Header darkMode={darkMode} handleThemeToggle={handleThemeToggle} />
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/exchange" element={<ExchangeRates />} />
         </Routes>
       </Router>
     </ThemeProvider>
