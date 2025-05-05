@@ -1,33 +1,42 @@
+// src/context/ThemeContext.jsx
+import React, { createContext, useState, useMemo, useContext } from 'react';
+import { ThemeProvider as MuiThemeProvider, CssBaseline } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
 
-export const lightTheme = createTheme({
-  palette: {
-    mode: 'light',
-    primary: {
-      main: '#1976d2', // blue for buttons and navbar
-    },
-    background: {
-      default: '#ffffff',
-      paper: '#f5f5f5', // light cards/background
-    },
-    text: {
-      primary: '#000000',
-    },
-  },
-});
+const ThemeContext = createContext();
 
-export const darkTheme = createTheme({
-  palette: {
-    mode: 'dark',
-    primary: {
-      main: '#90caf9', // light blue accent in dark mode
-    },
-    background: {
-      default: '#121212',
-      paper: '#1e1e1e',
-    },
-    text: {
-      primary: '#ffffff',
-    },
-  },
-});
+export const useThemeContext = () => useContext(ThemeContext);
+
+const ThemeContextProvider = ({ children }) => {
+  const [darkMode, setDarkMode] = useState(false);
+
+  const theme = useMemo(() =>
+    createTheme({
+      palette: {
+        mode: darkMode ? 'dark' : 'light',
+        primary: {
+          main: darkMode ? '#90caf9' : '#1976d2',
+        },
+        background: {
+          default: darkMode ? '#121212' : '#ffffff',
+          paper: darkMode ? '#1e1e1e' : '#f5f5f5',
+        },
+        text: {
+          primary: darkMode ? '#ffffff' : '#000000',
+        },
+      },
+    }), [darkMode]);
+
+  const toggleTheme = () => setDarkMode(prev => !prev);
+
+  return (
+    <ThemeContext.Provider value={{ darkMode, toggleTheme }}>
+      <MuiThemeProvider theme={theme}>
+        <CssBaseline />
+        {children}
+      </MuiThemeProvider>
+    </ThemeContext.Provider>
+  );
+};
+
+export default ThemeContextProvider;

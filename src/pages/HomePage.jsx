@@ -18,8 +18,8 @@ import {
 import axios from 'axios';
 
 const HomePage = () => {
-  const [loanAmount, setLoanAmount] = useState(395000);
-  const [interestRate, setInterestRate] = useState(12);
+  const [loanAmount, setLoanAmount] = useState(100000);
+  const [interestRate, setInterestRate] = useState(8.5);
   const [termYears, setTermYears] = useState(5);
   const [currency, setCurrency] = useState('USD');
   const [emi, setEmi] = useState(null);
@@ -177,7 +177,9 @@ const HomePage = () => {
               Amortization Schedule ({currency})
             </Typography>
             <Paper sx={{ overflowX: 'auto' }}>
-              <Table>
+            
+            <Box sx={{ maxHeight: 400, overflow: 'auto' }}>
+              <Table stickyHeader>
                 <TableHead>
                   <TableRow>
                     <TableCell>Month</TableCell>
@@ -197,7 +199,9 @@ const HomePage = () => {
                   ))}
                 </TableBody>
               </Table>
-            </Paper>
+            </Box>
+          </Paper>
+            
           </Box>
         )}
       </Container>
