@@ -1,22 +1,22 @@
-import React, { useState, useMemo } from 'react';
-import { ThemeProvider, CssBaseline } from '@mui/material';
+// App.jsx
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { createTheme } from '@mui/material/styles';
 import Header from './pages/Header';
 import HomePage from './pages/HomePage';
 import ExchangeRates from './pages/ExchangeRates';
 import ErrorPage from './pages/ErrorPage';
+import { useThemeContext } from './context/ThemeContext';
 
-const AppContent = ({ darkMode, handleThemeToggle }) => {
+const AppContent = () => {
   const location = useLocation();
+  const { darkMode, toggleTheme } = useThemeContext();
 
-  const hideHeaderRoutes = ['*', '/404']; // List of routes where Header should be hidden
   const isErrorPage = location.pathname === '*' || location.pathname === '/404';
 
   return (
     <>
       {!isErrorPage && (
-        <Header darkMode={darkMode} handleThemeToggle={handleThemeToggle} />
+        <Header darkMode={darkMode} handleThemeToggle={toggleTheme} />
       )}
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -27,38 +27,10 @@ const AppContent = ({ darkMode, handleThemeToggle }) => {
   );
 };
 
-const App = () => {
-  const [darkMode, setDarkMode] = useState(false);
-
-  const theme = useMemo(() =>
-    createTheme({
-      palette: {
-        mode: darkMode ? 'dark' : 'light',
-        primary: {
-          main: darkMode ? '#90caf9' : '#1976d2',
-        },
-        background: {
-          default: darkMode ? '#121212' : '#ffffff',
-          paper: darkMode ? '#1e1e1e' : '',
-        },
-        text: {
-          primary: darkMode ? '#ffffff' : '#000000',
-        },
-      },
-    }), [darkMode]);
-
-  const handleThemeToggle = () => {
-    setDarkMode(prevMode => !prevMode);
-  };
-
-  return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Router>
-        <AppContent darkMode={darkMode} handleThemeToggle={handleThemeToggle} />
-      </Router>
-    </ThemeProvider>
-  );
-};
+const App = () => (
+  <Router>
+    <AppContent />
+  </Router>
+);
 
 export default App;
