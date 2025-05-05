@@ -26,7 +26,7 @@ const Header = ({ darkMode, handleThemeToggle }) => {
     { label: 'HOME', path: '/' },
     { label: 'EXCHANGE RATES (LIVE)', path: '/exchange' },
     { label: 'ABOUT', path: '/about' },
-    { label: 'ERROR PAGE', path: '/error' },
+    { label: 'ERROR PAGE', path: '*' },
   ];
 
   const drawer = (
