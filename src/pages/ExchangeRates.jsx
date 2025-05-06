@@ -21,6 +21,7 @@ const ExchangeRates = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const API_URL = 'https://v6.exchangerate-api.com/v6/b8e2d43de88a6724c09451b6/latest/USD';
+ 
 
   useEffect(() => {
     const fetchRates = async () => {
