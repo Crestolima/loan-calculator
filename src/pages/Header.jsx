@@ -58,7 +58,7 @@ const Header = ({ darkMode, handleThemeToggle }) => {
       <AppBar 
         position="static" 
         sx={{ 
-          backgroundColor: darkMode ? '#333' : '#1976d2', 
+          backgroundColor: darkMode ? '#15130d' : '#1976d2', 
           color: '#fff', 
           boxShadow: 'none'
         }}
