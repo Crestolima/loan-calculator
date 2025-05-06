@@ -90,7 +90,9 @@ const HomePage = () => {
   };
 
   const resetTable = () => {
-    calculateEMI();
+    setEmi(null);
+    setSchedule([]);
+    setCalculated(false);
   };
 
   return (
@@ -101,7 +103,7 @@ const HomePage = () => {
         </Typography>
 
         <Grid container spacing={2} sx={{ mb: 2 }}>
-          <Grid item xs={12} sm={6}>
+          <Grid xs={12} md={6}>
             <TextField
               fullWidth
               label="Loan Amount (USD)"
@@ -111,7 +113,7 @@ const HomePage = () => {
               onChange={(e) => setLoanAmount(e.target.value)}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid xs={12} md={6}>
             <TextField
               fullWidth
               label="Interest Rate (%)"
@@ -121,7 +123,7 @@ const HomePage = () => {
               onChange={(e) => setInterestRate(e.target.value)}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid xs={12} md={6}>
             <TextField
               fullWidth
               label="Term (Years)"
@@ -137,9 +139,10 @@ const HomePage = () => {
           <Button variant="contained" onClick={calculateEMI} disabled={loading}>
             {loading ? <CircularProgress size={24} /> : 'CALCULATE'}
           </Button>
+          
         </Box>
 
-        {emi && (
+        {calculated && emi && (
           <Box sx={{ mt: 4 }}>
             <Typography variant="h6">
               Monthly EMI: {emi} {currency}
@@ -155,11 +158,7 @@ const HomePage = () => {
                   size="small"
                   value={currency}
                   onChange={(e) => setCurrency(e.target.value)}
-                  sx={{
-                    minWidth: 100,
-                    zIndex: 1300,
-                    position: 'relative',
-                  }}
+                  sx={{ minWidth: 100 }}
                 >
                   {currencies.map((cur) => (
                     <MenuItem key={cur} value={cur}>
@@ -177,31 +176,29 @@ const HomePage = () => {
               Amortization Schedule ({currency})
             </Typography>
             <Paper sx={{ overflowX: 'auto' }}>
-            
-            <Box sx={{ maxHeight: 400, overflow: 'auto' }}>
-              <Table stickyHeader>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Month</TableCell>
-                    <TableCell>Principal</TableCell>
-                    <TableCell>Interest</TableCell>
-                    <TableCell>Remaining Balance</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {schedule.map((row) => (
-                    <TableRow key={row.month}>
-                      <TableCell>{row.month}</TableCell>
-                      <TableCell>{row.principal} {currency}</TableCell>
-                      <TableCell>{row.interest} {currency}</TableCell>
-                      <TableCell>{row.balance} {currency}</TableCell>
+              <Box sx={{ maxHeight: 400, overflow: 'auto' }}>
+                <Table stickyHeader>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Month</TableCell>
+                      <TableCell>Principal</TableCell>
+                      <TableCell>Interest</TableCell>
+                      <TableCell>Remaining Balance</TableCell>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Box>
-          </Paper>
-            
+                  </TableHead>
+                  <TableBody>
+                    {schedule.map((row) => (
+                      <TableRow key={row.month}>
+                        <TableCell>{row.month}</TableCell>
+                        <TableCell>{row.principal} {currency}</TableCell>
+                        <TableCell>{row.interest} {currency}</TableCell>
+                        <TableCell>{row.balance} {currency}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </Box>
+            </Paper>
           </Box>
         )}
       </Container>
