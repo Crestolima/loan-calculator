@@ -1,37 +1,34 @@
 // App.jsx
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
 import Header from './pages/Header';
 import HomePage from './pages/HomePage';
 import ExchangeRates from './pages/ExchangeRates';
 import ErrorPage from './pages/ErrorPage';
-import { useThemeContext } from './context/ThemeContext';
 import About from './pages/About';
+import { useThemeContext } from './context/ThemeContext';
 
-const AppContent = () => {
-  const location = useLocation();
+const MainLayout = () => {
   const { darkMode, toggleTheme } = useThemeContext();
-
-  const isErrorPage = location.pathname === '*' || location.pathname === '/404';
 
   return (
     <>
-      {!isErrorPage && (
-        <Header darkMode={darkMode} handleThemeToggle={toggleTheme} />
-      )}
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/exchange" element={<ExchangeRates />} />
-        <Route path="/about" element={<About/>} />
-        <Route path="*" element={<ErrorPage />} />
-      </Routes>
+      <Header darkMode={darkMode} handleThemeToggle={toggleTheme} />
+      <Outlet />
     </>
   );
 };
 
 const App = () => (
   <Router>
-    <AppContent />
+    <Routes>
+      <Route element={<MainLayout />}>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/exchange" element={<ExchangeRates />} />
+        <Route path="/about" element={<About />} />
+      </Route>
+      <Route path="*" element={<ErrorPage />} />
+    </Routes>
   </Router>
 );
 
