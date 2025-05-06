@@ -6,6 +6,7 @@ import HomePage from './pages/HomePage';
 import ExchangeRates from './pages/ExchangeRates';
 import ErrorPage from './pages/ErrorPage';
 import { useThemeContext } from './context/ThemeContext';
+import About from './pages/About';
 
 const AppContent = () => {
   const location = useLocation();
@@ -21,6 +22,7 @@ const AppContent = () => {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/exchange" element={<ExchangeRates />} />
+        <Route path="/about" element={<About/>} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </>
